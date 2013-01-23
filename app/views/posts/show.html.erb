@@ -1,0 +1,75 @@
+<div id="show">
+
+<p id="notice"><%= notice %></p>
+
+<p><%= image_tag @post.image.url.to_s %></p>
+
+<p>
+  <%= @post.desc %>
+</p>
+
+<p>
+	<b>User:</b>
+	<%= @post.user.name %>
+</p>
+
+<p>
+	<b>Tags:</b>
+	<%= tag_show %>
+</p>
+
+<p>
+  <b>Type:</b>
+  <%= @post.post_type %>
+</p>
+
+<%= button_to("Like!", [@post,@like], :action => :create, :class => 'btn')%>
+
+
+
+<p>Comments:</p>
+
+<table class="table table-bordered">
+  <tr>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<%= @post.comments.each do |comment| %>
+	<tr>
+		<td><%= comment.user.name %></td>
+		<td><%= comment.content %></td>
+		<td><%= time_ago_in_words comment.created_at %> ago</td>
+		<td><%= link_to "Delete Comment", [@post, comment], :method => :delete, :confirm => "Are you sure?" %></td>
+	<tr>
+<% end %>
+</table>
+
+<br />
+
+<p>Comment on this image:</p>
+<%= form_for [@post, @post.comments.build] do |f| %>
+	<p><%= f.text_field :content %></p>
+	<p><%= f.submit "Submit comment", :class => 'btn-mini' %></p>
+<% end %>
+
+<br />
+
+<p>
+<% if @post.user_id == current_user.id %>
+	<%= link_to 'Edit', edit_post_path(@post) %> | <%= link_to "Delete", @post, method: :delete, data: { confirm: 'Do you want to delete this post?' } %> | <%= link_to 'Back to posts', posts_path %>
+<% else %>
+	<%= link_to 'Back to posts', posts_path %>
+<% end %> 
+</p>
+
+</div>
+
+<!-- 
+INSERT CODE TO DISPLAY USER NAME AND LINK TO USER PROFILE (ALL POSTS FROM USER)
+INSERT CODE ALLOW LIKE BUTTON
+INSERT CODE TO SHOW NUMBER OF LIKES
+INSERT CODE TO DISPLAY NUMBER OF COMMENTS AND LINK TO COMMENTS
+INSERT CODE TO DISPLAY TAGS, WHERE EACH TAG LINKS TO A QUERY OF ALL RECENT POSTS WITH ASSOCIATED TAG
+ -->

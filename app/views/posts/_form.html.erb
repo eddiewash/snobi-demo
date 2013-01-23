@@ -1,0 +1,39 @@
+<%= form_for(@post, :html => { :multipart => true })  do |f| %>
+  <% if @post.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@post.errors.count, "error") %> prohibited this post from being saved:</h2>
+
+      <ul>
+      <% @post.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+
+  <p>
+    <%= f.file_field :image %>
+  </p>
+
+  <p>
+    <%= f.label :remote_image_url, "or image URL" %><br />
+    <%= f.text_field :remote_image_url %>
+  </p>
+
+
+  <div class="field">
+    <%= f.label :desc, "Message" %><br />
+    <%= f.text_area :desc %>
+  </div>
+
+<div class="field">
+  <%= label_tag :tags %><br />
+  <%= text_field_tag :tags, @post.tags.map { |tag| tag.name}.join(", ") %>
+</div>
+
+  <div class="actions">
+    <%= f.submit :class => 'btn' %>
+  </div>
+
+<% end %>

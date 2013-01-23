@@ -1,0 +1,47 @@
+<h1>Welcome back <%= current_user.name %>!</h1>
+
+<br />
+
+<h2><%= current_user.name %></h2>
+
+<% if current_user.handle == "Hov" %>
+  <%= image_tag "jay-z-snobi.png", :size => "350x0" %>
+<% else %>
+  <%= image_tag "snobi-avi.png" %>
+<% end %>
+
+<h6><%= link_to "Edit Profile", edit_user_registration_path %><h6>
+<h5><%= current_user.friendships.count %> followers | 
+	<%= current_user.reverse_friendships.count %> followings |
+	<%= current_user.posts.count %> posts</h5>
+
+<p><%= "Profile picture placeholder" %></p>
+<p>Username: <%= current_user.handle %></p>
+<p>Bio: <%= current_user.desc %></p>
+<p>Location: <%= current_user.location %></p>
+<p>Site: <%= link_to current_user.site, current_user.site %></p>
+
+<br />
+<br />
+
+<h5>Your most recent posts:</h5>
+<br />
+
+<% current_user.posts.all.reverse.each do |post| %>
+
+  <div class="item">
+      <div class="pin">
+        <p><%= post.user.name %></p>
+        <p><%= link_to(image_tag(post.image.url.to_s), post) %></p>
+        <p><%= link_to post.likes.count, post %> <%= link_to "likes", post %> | <%= link_to post.comments.count, post %> <%= link_to "comments", post %></p>
+        <p><%= post.desc %></p>
+        <p><%= time_ago_in_words post.created_at %> ago</p>
+        <p><%= link_to "View", post %>
+          <% if post.user_id == current_user.id %>
+           | <%= link_to "Edit", edit_post_path(post) %> | <%= link_to "Delete", post, method: :delete, data: { confirm: 'Do you want to delete this post?' } %></p>
+          <% end %>
+      </div>
+  </div>
+
+<% end %>
+
