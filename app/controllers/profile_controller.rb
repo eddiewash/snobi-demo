@@ -14,6 +14,6 @@ class ProfileController < ApplicationController
 	end
 
 	def create
-		Friendship.create(:user_id => @user.id, :follower_id => :current_user.id)
+		
 	end
 end
